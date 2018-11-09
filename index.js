@@ -20,7 +20,7 @@ var randomInt;
 // if cached
 if(questionsCachedArr) {
 	randomInt = getRandomInt(questionsCachedArr.length);
-	randomQuestion = removeQuotes(questionsCachedArr[randomInt][0]);
+	randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
 }
 //if not cached then retrieve
 else {
@@ -31,14 +31,14 @@ else {
 	var csvData = new Array();
 	var jsonObject = request.responseText.split(/\r?\n|\r/);
 	for (var i = 0; i < jsonObject.length; i++) {
-	  csvData.push(jsonObject[i].split(','));
+	  csvData.push(jsonObject[i]);
 	}
 
 	localStorage.setItem('questions', JSON.stringify(csvData));
 	questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 
 	randomInt = getRandomInt(questionsCachedArr.length);
-	randomQuestion = removeQuotes(questionsCachedArr[randomInt][0]);
+	randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
 }
 
 document.querySelector("button").addEventListener("click", function(event) {
@@ -47,7 +47,7 @@ document.querySelector("button").addEventListener("click", function(event) {
 });
 
 document.querySelector(".question").innerHTML = randomQuestion;
-document.querySelector(".questionNumber").innerHTML = "#" + randomInt;
+document.querySelector(".questionNumber").innerHTML = "#" + (randomInt+1);
 
 document.querySelector(".smiley i").classList.add(smileyArr[getRandomInt(smileyArr.length)]);
 

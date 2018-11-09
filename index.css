@@ -123,5 +123,5 @@ button {
 }
 
 button:active {
-	top: 1px;
+	bottom: 19px;
 }
