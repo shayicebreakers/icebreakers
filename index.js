@@ -44,6 +44,12 @@ if(!questionsCachedArr || resetDaily()) {
 }
 
 randomInt = getRandomInt(questionsCachedArr.length);
+
+while(randomInt == parseInt(localStorage.getItem('randomInt'))) {
+	randomInt = getRandomInt(questionsCachedArr.length);
+}
+
+localStorage.setItem('randomInt', randomInt);
 randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
 
 document.querySelector(".question").innerHTML = randomQuestion;
