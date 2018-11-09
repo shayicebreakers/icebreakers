@@ -27,6 +27,10 @@ else {
 	randomQuestion = questionsCachedArr[getRandomInt(questionsCachedArr.length)][0];
 }
 
+document.querySelector("button").addEventListener("click", function(event) {
+	localStorage.setItem('questions', null);
+	window.location.reload();
+});
 
 document.querySelector(".question").innerHTML = randomQuestion;
 
