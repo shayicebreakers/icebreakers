@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Poor+Story|Poppins');
+@import url('https://fonts.googleapis.com/css?family=Poor+Story|Poppins|Shadows+Into+Light');
 @import url('https://use.fontawesome.com/releases/v5.5.0/css/all.css');
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -61,7 +61,7 @@ body {
 }
 
 .question {
-	font-family: 'Poor Story', Helvetica, sans-serif;
+	font-family: 'Poor Story', 'Helvetica Neue', Arial, sans-serif;
 	font-size: 63px;
 	width: 100%;
 	max-width: 960px;
