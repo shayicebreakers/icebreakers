@@ -49,7 +49,7 @@ table {
 }
 
 * {
-	
+	font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
 }
 
 html, body {
@@ -76,7 +76,6 @@ body {
 	font-size: 24px;
 	position: fixed;
 	z-index: 0;
-	font-family: Helvetica, sans-serif;
 	color: rgba( 0, 102, 255, 0.33);
 	right: 10px;
 	top: 10px;
@@ -88,7 +87,6 @@ body {
 	font-size: 100vmin;
 	position: fixed;
 	z-index: 0;
-	font-family: Helvetica, sans-serif;
 	color: rgba( 255, 204, 0, 0.33);
 	left: 50%;
 	-webkit-transform: translateX(-50%) translateY(-50%);
@@ -124,4 +122,14 @@ button {
 
 button:active {
 	top: 51px;
+}
+
+.refresh-text {
+	position: relative;
+	z-index: 10;
+	color: #999;
+	display: block;
+	text-align: center;
+	letter-spacing: 0.33px;
+	margin: 10px 0;
 }

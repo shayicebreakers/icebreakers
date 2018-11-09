@@ -6,6 +6,7 @@ function removeQuotes(str) {
 	return str.replace(/["]+/g, '');
 }
 
+
 var smileyArr = [
 	'fa-smile-beam',
 	'fa-smile',
@@ -13,17 +14,20 @@ var smileyArr = [
 	'fa-grin-wink'
 ];
 
+var SECONDS_IN_DAY = 60*60*24;
+
+function resetDaily() {
+	let expiryTime = parseInt(localStorage.getItem('timestamp'));
+
+	return new Date().getTime() >= expiryTime + SECONDS_IN_DAY;
+}
+
+
 var questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 var randomQuestion = '';
 var randomInt;
 
-// if cached
-if(questionsCachedArr) {
-	randomInt = getRandomInt(questionsCachedArr.length);
-	randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
-}
-//if not cached then retrieve
-else {
+if(!questionsCachedArr || resetDaily()) {
 	var request = new XMLHttpRequest();  
 	request.open("GET", 'data.csv', false);   
 	request.send(null);  
@@ -34,17 +38,26 @@ else {
 	  csvData.push(jsonObject[i]);
 	}
 
+	//set local storage values
+	localStorage.setItem('timestamp', new Date().getTime());
 	localStorage.setItem('questions', JSON.stringify(csvData));
 	questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 
 	randomInt = getRandomInt(questionsCachedArr.length);
 	randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
 }
+else {
+	randomInt = getRandomInt(questionsCachedArr.length);
+	randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
+}
 
-document.querySelector("button").addEventListener("click", function(event) {
-	localStorage.setItem('questions', null);
-	window.location.reload();
-});
+if(document.querySelector("button")) {
+	document.querySelector("button").addEventListener("click", function(event) {
+		localStorage.setItem('questions', null);
+		window.location.reload();
+	});
+}
+
 
 document.querySelector(".question").innerHTML = randomQuestion;
 document.querySelector(".questionNumber").innerHTML = "#" + (randomInt+1);
