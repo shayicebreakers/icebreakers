@@ -2,12 +2,25 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+function removeQuotes(str) {
+	return str.replace(/["]+/g, '');
+}
+
+var smileyArr = [
+	'fa-smile-beam',
+	'fa-smile',
+	'fa-grin-squint-tears',
+	'fa-grin-wink'
+];
+
 var questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 var randomQuestion = '';
+var randomInt;
 
 // if cached
 if(questionsCachedArr) {
-	randomQuestion = questionsCachedArr[getRandomInt(questionsCachedArr.length)][0];
+	randomInt = getRandomInt(questionsCachedArr.length);
+	randomQuestion = removeQuotes(questionsCachedArr[randomInt][0]);
 }
 //if not cached then retrieve
 else {
@@ -24,7 +37,8 @@ else {
 	localStorage.setItem('questions', JSON.stringify(csvData));
 	questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 
-	randomQuestion = questionsCachedArr[getRandomInt(questionsCachedArr.length)][0];
+	randomInt = getRandomInt(questionsCachedArr.length);
+	randomQuestion = removeQuotes(questionsCachedArr[randomInt][0]);
 }
 
 document.querySelector("button").addEventListener("click", function(event) {
@@ -33,4 +47,7 @@ document.querySelector("button").addEventListener("click", function(event) {
 });
 
 document.querySelector(".question").innerHTML = randomQuestion;
+document.querySelector(".questionNumber").innerHTML = "#" + randomInt;
+
+document.querySelector(".smiley i").classList.add(smileyArr[getRandomInt(smileyArr.length)]);
 
