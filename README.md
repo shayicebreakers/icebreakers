@@ -2,4 +2,4 @@
 
 Shay's ice breaker questions
 
-Logo should be 3d codees of icebreakers the gum in a heart shape
+Logo should be 3d blocks of icebreakers the gum in a heart shape
