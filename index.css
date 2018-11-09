@@ -21,8 +21,6 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -51,4 +49,22 @@ table {
 
 * {
 	font-family: 'Poor Story', Helvetica, sans-serif;
+}
+
+html, body {
+	height: 100%;
+}
+
+.question {
+	font-size: 72px;
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+	position: relative;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+	text-align: center;
 }
