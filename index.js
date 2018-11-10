@@ -21,8 +21,9 @@ function getData(url) {
 
 	var csvData = new Array();
 	var jsonObject = request.responseText.split(/\r?\n|\r/);
+	debugger;
 	for (var i = 0; i < jsonObject.length; i++) {
-	  csvData.push(jsonObject[i]);
+	  csvData.push(jsonObject[i].split('\t'));
 	}
 
 	return csvData;
@@ -39,13 +40,11 @@ function shuffle(a) {
     return a;
 }
 
-function writeData(question, int) {
+function writeData(question, int, smiley) {
 	document.querySelector(".question").innerHTML = question;
 	document.querySelector(".questionNumber").innerHTML = "#" + (int+1);
-
-	document.querySelector(".smiley i").classList.remove(currentSmiley);
-	currentSmiley = smileyArr[getRandomInt(smileyArr.length)];
-	document.querySelector(".smiley i").classList.add(currentSmiley);
+	document.querySelector(".smiley i").className="";
+	document.querySelector(".smiley i").classList.add("far", smiley);
 }
 
 var smileyArr = [
@@ -55,10 +54,9 @@ var smileyArr = [
 	'fa-grin-wink'
 ];
 
-var currentSmiley = smileyArr[getRandomInt(smileyArr.length)];
-
 var questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 var randomQuestion = '';
+var randomQuestionSmiley = '';
 var randomInt;
 var questionsOrderArr = [];
 var questionsOrderIndex = 0;
@@ -66,10 +64,8 @@ var questionsOrderIndex = 0;
 //if you finish the test then turn this value on so that the alert does not popup
 var passedGameOnce = false;
 
-
 if(!questionsCachedArr || resetDaily()) {
-	
-	var data = getData('data.csv');
+	var data = getData('data.tsv');
 
 	//set local storage values
 	localStorage.setItem('timestamp', new Date().getTime());
@@ -85,9 +81,9 @@ for(var i = 0; i < questionsCachedArr.length; i++) {
 questionsOrderArr = shuffle(questionsOrderArr);
 
 randomInt = questionsOrderArr[questionsOrderIndex];
-randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
-
-writeData(randomQuestion, randomInt);
+randomQuestion = removeQuotes(questionsCachedArr[randomInt][0]);
+randomQuestionSmiley = questionsCachedArr[randomInt][1];
+writeData(randomQuestion, randomInt, randomQuestionSmiley);
 
 if(document.querySelector("button.next")) {
 	document.querySelector("button.next").addEventListener("click", function(event) {
@@ -99,14 +95,15 @@ if(document.querySelector("button.next")) {
 				alert("Awesome! Now you know more than when you started! Hit the reset button to replay.");
 				passedGameOnce = true;
 			}
-			
+
 			document.querySelector("button.next").classList.add("display-none");
 			document.querySelector("button.reset").classList.remove("display-none");
 		}
 		else {
 			randomInt = questionsOrderArr[questionsOrderIndex];
-			randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
-			writeData(randomQuestion, randomInt);
+			randomQuestion = removeQuotes(questionsCachedArr[randomInt][0]);
+			randomQuestionSmiley = questionsCachedArr[randomInt][1];
+			writeData(randomQuestion, randomInt, randomQuestionSmiley);
 		}
 	});
 }
@@ -121,9 +118,9 @@ if(document.querySelector("button.reset")) {
 		questionsOrderIndex = 0;
 
 		randomInt = questionsOrderArr[questionsOrderIndex];
-		randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
-
-		writeData(randomQuestion, randomInt);
+		randomQuestion = removeQuotes(questionsCachedArr[randomInt][0]);
+		randomQuestionSmiley = questionsCachedArr[randomInt][1];
+		writeData(randomQuestion, randomInt, randomQuestionSmiley);
 	});
 }
 
