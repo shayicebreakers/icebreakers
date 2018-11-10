@@ -6,14 +6,6 @@ function removeQuotes(str) {
 	return str.replace(/["]+/g, '');
 }
 
-
-var smileyArr = [
-	'fa-smile-beam',
-	'fa-smile',
-	'fa-grin-squint-tears',
-	'fa-grin-wink'
-];
-
 var SECONDS_IN_DAY = 60*60*24;
 
 function resetDaily() {
@@ -22,13 +14,9 @@ function resetDaily() {
 	return new Date().getTime() >= expiryTime + SECONDS_IN_DAY;
 }
 
-var questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
-var randomQuestion = '';
-var randomInt;
-
-if(!questionsCachedArr || resetDaily()) {
+function getData(url) {
 	var request = new XMLHttpRequest();  
-	request.open("GET", 'data.csv', false);   
+	request.open("GET", url, false);   
 	request.send(null);  
 
 	var csvData = new Array();
@@ -37,9 +25,38 @@ if(!questionsCachedArr || resetDaily()) {
 	  csvData.push(jsonObject[i]);
 	}
 
+	return csvData;
+}
+
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
+var smileyArr = [
+	'fa-smile-beam',
+	'fa-smile',
+	'fa-grin-squint-tears',
+	'fa-grin-wink'
+];
+
+var questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
+var randomQuestion = '';
+var randomInt;
+
+if(!questionsCachedArr || resetDaily()) {
+	
+	var data = getData('data.csv');
+
 	//set local storage values
 	localStorage.setItem('timestamp', new Date().getTime());
-	localStorage.setItem('questions', JSON.stringify(csvData));
+	localStorage.setItem('questions', JSON.stringify(data));
 	questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 }
 
@@ -54,7 +71,6 @@ randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
 
 document.querySelector(".question").innerHTML = randomQuestion;
 document.querySelector(".questionNumber").innerHTML = "#" + (randomInt+1);
-
 document.querySelector(".smiley i").classList.add(smileyArr[getRandomInt(smileyArr.length)]);
 
 
