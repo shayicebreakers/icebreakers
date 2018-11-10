@@ -58,7 +58,8 @@ body {
 }
 
 .question {
-	font-family: 'Poor Story', 'Helvetica Neue', Arial, sans-serif;
+	font-family: 'Shadows Into Light', 'Helvetica Neue', Arial, sans-serif;
+	line-height: 1.5;
 	font-size: 63px;
 	width: 100%;
 	max-width: 960px;
