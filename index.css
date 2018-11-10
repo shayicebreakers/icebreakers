@@ -99,6 +99,7 @@ body {
 button {
 	z-index: 10;
 	background: white;
+	color: black;
 	border: 2px solid black;
 	padding: 5px 7px;
 	outline: none;
