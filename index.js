@@ -39,6 +39,15 @@ function shuffle(a) {
     return a;
 }
 
+function writeData(question, int) {
+	document.querySelector(".question").innerHTML = question;
+	document.querySelector(".questionNumber").innerHTML = "#" + (int+1);
+
+	document.querySelector(".smiley i").classList.remove(currentSmiley);
+	currentSmiley = smileyArr[getRandomInt(smileyArr.length)];
+	document.querySelector(".smiley i").classList.add(currentSmiley);
+}
+
 var smileyArr = [
 	'fa-smile-beam',
 	'fa-smile',
@@ -46,9 +55,14 @@ var smileyArr = [
 	'fa-grin-wink'
 ];
 
+var currentSmiley = smileyArr[getRandomInt(smileyArr.length)];
+
 var questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 var randomQuestion = '';
 var randomInt;
+var questionsOrderArr = [];
+var questionsOrderIndex = 0;
+
 
 if(!questionsCachedArr || resetDaily()) {
 	
@@ -60,24 +74,48 @@ if(!questionsCachedArr || resetDaily()) {
 	questionsCachedArr = JSON.parse(localStorage.getItem('questions'));
 }
 
-randomInt = getRandomInt(questionsCachedArr.length);
-
-while(randomInt == parseInt(localStorage.getItem('randomInt'))) {
-	randomInt = getRandomInt(questionsCachedArr.length);
+for(var i = 0; i < questionsCachedArr.length; i++) {
+	questionsOrderArr[i] = i;
 }
+	
+//shuffle the array;
+questionsOrderArr = shuffle(questionsOrderArr);
 
-localStorage.setItem('randomInt', randomInt);
+randomInt = questionsOrderArr[questionsOrderIndex];
 randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
 
-document.querySelector(".question").innerHTML = randomQuestion;
-document.querySelector(".questionNumber").innerHTML = "#" + (randomInt+1);
-document.querySelector(".smiley i").classList.add(smileyArr[getRandomInt(smileyArr.length)]);
+writeData(randomQuestion, randomInt);
 
+if(document.querySelector("button.next")) {
+	document.querySelector("button.next").addEventListener("click", function(event) {
+		questionsOrderIndex++;
 
-// if(document.querySelector("button")) {
-// 	document.querySelector("button").addEventListener("click", function(event) {
-// 		localStorage.setItem('questions', null);
-// 		window.location.reload();
-// 	});
-// }
+		if(questionsOrderIndex === questionsOrderArr.length) {
+			alert("Awesome! Now you know more than when you started! Hit the reset button to replay.");
+			document.querySelector("button.next").classList.add("display-none");
+			document.querySelector("button.reset").classList.remove("display-none");
+		}
+		else {
+			randomInt = questionsOrderArr[questionsOrderIndex];
+			randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
+			writeData(randomQuestion, randomInt);
+		}
+	});
+}
+
+if(document.querySelector("button.reset")) {
+	document.querySelector("button.reset").addEventListener("click", function(event) {
+
+		document.querySelector("button.reset").classList.add("display-none");
+		document.querySelector("button.next").classList.remove("display-none");
+
+		questionsOrderArr = shuffle(questionsOrderArr);
+		questionsOrderIndex = 0;
+
+		randomInt = questionsOrderArr[questionsOrderIndex];
+		randomQuestion = removeQuotes(questionsCachedArr[randomInt]);
+
+		writeData(randomQuestion, randomInt);
+	});
+}
 
