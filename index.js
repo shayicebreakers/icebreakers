@@ -63,6 +63,9 @@ var randomInt;
 var questionsOrderArr = [];
 var questionsOrderIndex = 0;
 
+//if you finish the test then turn this value on so that the alert does not popup
+var passedGameOnce = false;
+
 
 if(!questionsCachedArr || resetDaily()) {
 	
@@ -91,7 +94,12 @@ if(document.querySelector("button.next")) {
 		questionsOrderIndex++;
 
 		if(questionsOrderIndex === questionsOrderArr.length) {
-			alert("Awesome! Now you know more than when you started! Hit the reset button to replay.");
+			
+			if(!passedGameOnce) {
+				alert("Awesome! Now you know more than when you started! Hit the reset button to replay.");
+				passedGameOnce = true;
+			}
+			
 			document.querySelector("button.next").classList.add("display-none");
 			document.querySelector("button.reset").classList.remove("display-none");
 		}
