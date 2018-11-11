@@ -21,7 +21,7 @@ function getData(url) {
 
 	var csvData = new Array();
 	var jsonObject = request.responseText.split(/\r?\n|\r/);
-	debugger;
+	
 	for (var i = 0; i < jsonObject.length; i++) {
 	  csvData.push(jsonObject[i].split('\t'));
 	}
